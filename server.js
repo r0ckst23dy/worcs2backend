@@ -49,7 +49,7 @@ ordersRoutes.route('/add').post(function(req, res) {
 });
 
 ordersRoutes.route('/update/:id').post(function(req, res) { 
-    Orders.findById(req.params.id, function(err, orders {
+    Orders.findById(req.params.id, function(err, orders) {
         if (!orders)
             res.status(404).send('data is not found');
         else
@@ -72,7 +72,7 @@ ordersRoutes.route('/update/:id').post(function(req, res) {
             orders.reviewed = req.body.reviewed;
 
             orders.save().then(orders => {
-                res.json(' Work Order Updated')
+                res.json('Work Order Updated')
             })
             .catch(err => {
                 res.status(400).send('Update not possible')
