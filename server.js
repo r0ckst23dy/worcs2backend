@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser= require('body-parser');
 const cors = require('cors');
-const PORT = 8000;
+const PORT = 8080;
 const ordersRoutes = express.Router();
 
 const uri = "mongodb+srv://Joshua:12345josh@cluster0.fxm00.mongodb.net/WORCS?retryWrites=true&w=majority";
