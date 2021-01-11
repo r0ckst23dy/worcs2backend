@@ -3,22 +3,25 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser= require('body-parser');
 const cors = require('cors');
-const PORT = 8080;
+const PORT = 8000;
 const ordersRoutes = express.Router();
+
+const uri = "mongodb+srv://Joshua:12345josh@cluster0.fxm00.mongodb.net/WORCS?retryWrites=true&w=majority";
+
 
 let Orders = require('./orders.model');
 
 app.use(cors());
 app.use(bodyParser.json());
 
+mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true})
+    .then(() => {
+        console.log('Connected to Database');
+    })
+    .catch( (err) => {
+        console.log((`Error connecting to database. \n${err}`));
+    })
 
-
-mongoose.connect('mongodb://127.0.0.1:27017/WORCSDB', { useNewUrlParser: true}, { useUnifiedTopology : true})
-const connection = mongoose.connection;
-
-connection.once('open', function() {
-    console.log("MongoDB database connection established successfully");
-});
 
 ordersRoutes.route('/').get(function(req, res) {
     Orders.find(function(err, orders) { 
@@ -30,7 +33,7 @@ ordersRoutes.route('/').get(function(req, res) {
     });
 });
 
-ordersRoutes.route('/:id').get(function(req, res) {
+ordersRoutes.route('/: id').get(function(req, res) {
     let id = req.params.id;
     Orders.findById(id, function(err, orders) {
         res.json(orders);
