@@ -33,7 +33,7 @@ ordersRoutes.route('/').get(function(req, res) {
     });
 });
 
-ordersRoutes.route('/: id').get(function(req, res) {
+ordersRoutes.route('/:id').get(function(req, res) {
     let id = req.params.id;
     Orders.findById(id, function(err, orders) {
         res.json(orders);
