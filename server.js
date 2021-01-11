@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser= require('body-parser');
 const cors = require('cors');
-const PORT = 8080;
+const port = process.env.PORT || 8080;
 const ordersRoutes = express.Router();
 
 const uri = "mongodb+srv://Joshua:12345josh@cluster0.fxm00.mongodb.net/WORCS?retryWrites=true&w=majority";
@@ -87,6 +87,6 @@ ordersRoutes.route('/update/:id').post(function(req, res) {
 
 app.use('/orders', ordersRoutes)
 
-app.listen(PORT, function() { 
-    console.log("Server is running on Port:" + PORT);
+app.listen(port, function() { 
+    console.log("Server is running on Port:" + port);
 })
