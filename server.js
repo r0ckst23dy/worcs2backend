@@ -5,11 +5,14 @@ const bodyParser= require('body-parser');
 const cors = require('cors');
 const port = process.env.PORT || 8080;
 const ordersRoutes = express.Router();
+const urlencodedParser = bodyParser.urlencoded({extended: false});
+
 
 const uri = "mongodb+srv://Joshua:12345josh@cluster0.fxm00.mongodb.net/WORCS?retryWrites=true&w=majority";
 
 
 let Orders = require('./orders.model');
+const { urlencoded } = require('body-parser');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -40,7 +43,9 @@ ordersRoutes.route('/:id').get(function(req, res) {
     });
 });
 
-ordersRoutes.route('/add').post(function(req, res) { 
+// ordersRoutes.route('/add').post(function(req, res)
+ordersRoutes.post('/add', urlencodedParser, (req, res) =>
+{ 
     let orders = new Orders(req.body);
     orders.save()
         .then(orders => {
