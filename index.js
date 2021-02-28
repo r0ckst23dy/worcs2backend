@@ -5,16 +5,20 @@ const mongoose = require('mongoose');
 const bodyParser= require('body-parser');
 const port = process.env.PORT || 8080;
 const ordersRoutes = express.Router();
-const urlencodedParser = bodyParser.urlencoded({extended: false});
+// const urlencodedParser = bodyParser.urlencoded({extended: false});
 
 
 const uri = "mongodb+srv://Joshua:12345josh@cluster0.fxm00.mongodb.net/WORCS?retryWrites=true&w=majority";
 
+let corsOptions = {
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200
+}
 
 let Orders = require('./orders.model');
-const { urlencoded } = require('body-parser');
+// const { urlencoded } = require('body-parser');
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true})
@@ -25,7 +29,25 @@ mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true})
         console.log((`Error connecting to database. \n${err}`));
     })
 
+// DEVELOPMENT 
+app.get('/', (req, res) => {
+    Orders.find(function(err, orders) { 
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(orders)
+        }
+    }); 
+});
 
+app.get('/:id', (req, res) => {
+    let id = req.params.id;
+    Orders.findById(id, function(err, orders) {
+        res.json(orders);
+    });
+});
+
+// ROUTES
 ordersRoutes.route('/').get(function(req, res) {
     Orders.find(function(err, orders) { 
         if (err) {
@@ -42,6 +64,7 @@ ordersRoutes.route('/:id').get(function(req, res) {
         res.json(orders);
     });
 });
+
 
 ordersRoutes.route('/add').post(function(req, res)
 { 
