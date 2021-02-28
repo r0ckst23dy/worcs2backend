@@ -1,20 +1,19 @@
 const express =  require('express');
+const cors = require('cors');
+const helmet = require('helmet')
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser= require('body-parser');
-const cors = require('cors');
 const port = process.env.PORT || 8080;
 const ordersRoutes = express.Router();
-const urlencodedParser = bodyParser.urlencoded({extended: false});
-
 
 const uri = "mongodb+srv://Joshua:12345josh@cluster0.fxm00.mongodb.net/WORCS?retryWrites=true&w=majority";
 
-
 let Orders = require('./orders.model');
-const { urlencoded } = require('body-parser');
 
+app.use(helmet());
 app.use(cors());
+app.use(bodyParser.urlencoded({extended: true});
 app.use(bodyParser.json());
 
 mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true})
@@ -44,8 +43,8 @@ ordersRoutes.route('/:id').get(function(req, res) {
 });
 
 // ordersRoutes.route('/add').post(function(req, res)
-ordersRoutes.post('/add', urlencodedParser, (req, res) =>
-{ 
+ordersRoutes.post('/add', urlencodedParser, (req, res) => {
+
     let orders = new Orders(req.body);
     orders.save()
         .then(orders => {
@@ -54,6 +53,7 @@ ordersRoutes.post('/add', urlencodedParser, (req, res) =>
         .catch(err => { 
             res.status(400).send('adding new work order failed');
         });
+        
 });
 
 ordersRoutes.route('/update/:id').post(function(req, res) { 
