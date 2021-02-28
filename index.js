@@ -29,26 +29,26 @@ mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true})
         console.log((`Error connecting to database. \n${err}`));
     })
 
-// DEVELOPMENT 
-app.get('/', (req, res) => {
-    Orders.find(function(err, orders) { 
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(orders)
-        }
-    }); 
-});
+// // DEVELOPMENT 
+// app.get('/', (req, res) => {
+//     Orders.find(function(err, orders) { 
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             res.json(orders)
+//         }
+//     }); 
+// });
 
-app.get('/:id', (req, res) => {
-    let id = req.params.id;
-    Orders.findById(id, function(err, orders) {
-        res.json(orders);
-    });
-});
+// app.get('/:id', (req, res) => {
+//     let id = req.params.id;
+//     Orders.findById(id, function(err, orders) {
+//         res.json(orders);
+//     });
+// });
 
 // ROUTES
-ordersRoutes.route('/').get(function(req, res) {
+ordersRoutes.route('/').get( cors(corsOptions), (req, res) => {
     Orders.find(function(err, orders) { 
         if (err) {
             console.log(err);
