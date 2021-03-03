@@ -1,9 +1,7 @@
 {
   "name": "worcs2backend",
   "engines": {
-    
     "node": "14.16.0"
-    
   },
   "version": "1.0.0",
   "description": "",
