@@ -10,7 +10,7 @@ const uri = "mongodb+srv://Joshua:12345josh@cluster0.fxm00.mongodb.net/WORCS?ret
 
 let Orders = require('./orders.model');
 
-let whitelist = ['http://localhost:3000']
+let whitelist = ['http://localhost:3000', "http://localhost:8080"]
 var corsOptions = {
     origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -33,22 +33,22 @@ mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true})
     })
 
 // DEVELOPMENT 
-// app.get('/', (req, res) => {
-//     Orders.find(function(err, orders) { 
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             res.json(orders)
-//         }
-//     }); 
-// });
+app.get('/', (req, res) => {
+    Orders.find(function(err, orders) { 
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(orders)
+        }
+    }); 
+});
 
-// app.get('/:id', (req, res) => {
-//     let id = req.params.id;
-//     Orders.findById(id, function(err, orders) {
-//         res.json(orders);
-//     });
-// });
+app.get('/:id', (req, res) => {
+    let id = req.params.id;
+    Orders.findById(id, function(err, orders) {
+        res.json(orders);
+    });
+});
 
 // ROUTES
 ordersRoutes.route('/').get( (req, res) => {
