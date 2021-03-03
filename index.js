@@ -5,18 +5,21 @@ const mongoose = require('mongoose');
 const bodyParser= require('body-parser');
 const port = process.env.PORT || 8080;
 const ordersRoutes = express.Router();
-// const urlencodedParser = bodyParser.urlencoded({extended: false});
-
 
 const uri = "mongodb+srv://Joshua:12345josh@cluster0.fxm00.mongodb.net/WORCS?retryWrites=true&w=majority";
 
-let corsOptions = {
-    origin: 'http://localhost:3000',
-    optionsSuccessStatus: 200
-}
-
 let Orders = require('./orders.model');
-// const { urlencoded } = require('body-parser');
+
+let whitelist = ['http://localhost:3000']
+var corsOptions = {
+    origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+        callback(null, true)
+    } else {
+        callback(new Error('Not allowed by CORS'))
+    }
+``}
+}
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
@@ -29,7 +32,7 @@ mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true})
         console.log((`Error connecting to database. \n${err}`));
     })
 
-// // DEVELOPMENT 
+// DEVELOPMENT 
 // app.get('/', (req, res) => {
 //     Orders.find(function(err, orders) { 
 //         if (err) {
@@ -48,7 +51,7 @@ mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true})
 // });
 
 // ROUTES
-ordersRoutes.route('/').get( cors(corsOptions), (req, res) => {
+ordersRoutes.route('/').get( (req, res) => {
     Orders.find(function(err, orders) { 
         if (err) {
             console.log(err);
