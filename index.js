@@ -22,7 +22,7 @@ var corsOptions = {
 }
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true})
     .then(() => {
